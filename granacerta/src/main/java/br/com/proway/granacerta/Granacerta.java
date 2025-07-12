@@ -10,7 +10,4 @@ package br.com.proway.granacerta;
  */
 public class Granacerta {
 
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
 }
