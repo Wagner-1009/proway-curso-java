@@ -52,9 +52,9 @@
                   </Group>
                   <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jRadioButtonPoupança" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="jRadioButtonTipoPoupanca" min="-2" pref="100" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                          <Component id="jRadioButtonCorrente" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="jRadioButtonTipoCorrente" min="-2" pref="100" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jLabelSaldo" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
                       <Component id="jTextFieldNome" max="32767" attributes="0"/>
@@ -95,8 +95,8 @@
                       <Component id="jLabelTipo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jRadioButtonPoupança" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jRadioButtonCorrente" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRadioButtonTipoPoupanca" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRadioButtonTipoCorrente" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabelSaldo" min="-2" max="-2" attributes="0"/>
@@ -180,7 +180,7 @@
         <Property name="text" type="java.lang.String" value="Tipo:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JRadioButton" name="jRadioButtonPoupan&#xe7;a">
+    <Component class="javax.swing.JRadioButton" name="jRadioButtonTipoPoupanca">
       <Properties>
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="buttonGroupTipo"/>
@@ -188,7 +188,7 @@
         <Property name="text" type="java.lang.String" value="Poupan&#xe7;a"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JRadioButton" name="jRadioButtonCorrente">
+    <Component class="javax.swing.JRadioButton" name="jRadioButtonTipoCorrente">
       <Properties>
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="buttonGroupTipo"/>
@@ -222,16 +222,25 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Editar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEditarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonApagar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Apagar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonApagarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonSalvar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Salvar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSalvarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonCancelar">
       <Properties>
