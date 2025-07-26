@@ -8,14 +8,14 @@ package br.com.proway.granacerta.telas;
  *
  * @author wagne
  */
-public class HomeJFrame extends javax.swing.JFrame {
+public class HomeContasJFrame extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(HomeJFrame.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(HomeContasJFrame.class.getName());
 
     /**
      * Creates new form HomeJFrame
      */
-    public HomeJFrame() {
+    public HomeContasJFrame() {
         initComponents();
     }
 
@@ -29,6 +29,7 @@ public class HomeJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jButtonContas = new javax.swing.JButton();
+        jButtonClientes = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Grana Certa | Home");
@@ -40,6 +41,13 @@ public class HomeJFrame extends javax.swing.JFrame {
             }
         });
 
+        jButtonClientes.setText("Clientes");
+        jButtonClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonClientesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -47,14 +55,18 @@ public class HomeJFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonContas, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(294, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButtonClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(177, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButtonContas, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonContas, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(193, Short.MAX_VALUE))
         );
 
         pack();
@@ -67,9 +79,16 @@ public class HomeJFrame extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButtonContasActionPerformed
 
+    private void jButtonClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClientesActionPerformed
+        var formCliente = new ClientesJFrame();
+        formCliente.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButtonClientesActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonClientes;
     private javax.swing.JButton jButtonContas;
     // End of variables declaration//GEN-END:variables
 }

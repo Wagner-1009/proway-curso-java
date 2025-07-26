@@ -123,7 +123,7 @@ public class LoginJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonNovoUsuarioActionPerformed
 
     private void jButtonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEntrarActionPerformed
-        var home = new HomeJFrame();
+        var home = new HomeContasJFrame();
         home.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonEntrarActionPerformed

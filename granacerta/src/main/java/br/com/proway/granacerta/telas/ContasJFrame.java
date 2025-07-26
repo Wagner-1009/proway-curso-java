@@ -4,7 +4,7 @@
  */
 package br.com.proway.granacerta.telas;
 
-import br.com.proway.granacerta.bancodados.BancoDadosUtil;
+import br.com.proway.granacerta.bancodadosGranaCerta.BancoDadosUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ContasJFrame extends javax.swing.JFrame {
     
-    private final DefaultTableModel modeloTabela;
+    private final DefaultTableModel  modeloTabela;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ContasJFrame.class.getName());
     private int idEditar;
     /**
@@ -28,7 +28,7 @@ public class ContasJFrame extends javax.swing.JFrame {
     public ContasJFrame() {
         initComponents();
         //pegar o medelo do jtable das contas fazendo um
-        //cast para defaultTableMode1
+        //cast para defaultTableModel1
         modeloTabela = (DefaultTableModel) jTableContas.getModel();
         //idEditar começa com -1 pq é o modo de cadastro
         idEditar = -1;
@@ -100,6 +100,12 @@ public class ContasJFrame extends javax.swing.JFrame {
         }
 
         jLabelNome.setText("Nome: ");
+
+        jTextFieldNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldNomeActionPerformed(evt);
+            }
+        });
 
         jLabelTipo.setText("Tipo:");
 
@@ -211,13 +217,13 @@ public class ContasJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        var home = new HomeJFrame();
+        var home = new HomeContasJFrame();
         home.setVisible(true);  
         
     }//GEN-LAST:event_formWindowClosed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        String nome = jTextFieldNome.getText();
+        String nome = jTextFieldNome.getText();     
         double saldo = Double.parseDouble(jFormattedTextFieldSaldo.getText().replace(",","."));
                                                                                    
         String descricao = jTextAreaDescricao.getText();
@@ -228,28 +234,33 @@ public class ContasJFrame extends javax.swing.JFrame {
             tipoSelecionado = 1;
         }
         
-        //comando que sera executado no banco de dados
-        String sql= "INSERT INTO contas (nome, tipo, saldo, descricao) VALUES (?,?,?,?)";
-        try(Connection conexao = BancoDadosUtil.getConnection()){
-            PreparedStatement preparadorDeSQL = conexao.prepareStatement(sql);
-            preparadorDeSQL.setString(1, nome);
-            preparadorDeSQL.setInt(2, tipoSelecionado);
-            preparadorDeSQL.setDouble(3, saldo);
-            preparadorDeSQL.setString(4, descricao);
-            preparadorDeSQL.execute();
-            JOptionPane.showMessageDialog(null, "Conta cadastrada com sucesso!");
-            limparCampos();
-            
-        }catch (Exception e){
-            JOptionPane.showMessageDialog(null, "Não foi possivel cadastrar a conta");
-            e.printStackTrace();
+        if(idEditar == -1){
+            cadastrarConta(nome, tipoSelecionado, saldo, descricao);
+        }else{
+            editarConta(nome, tipoSelecionado, saldo, descricao);
         }
         
-        //Como utiliar banco de dados no meu projeto
-        //adicionar dependencias do mySQL-Connector-j no pom.xml utilizando maven
-        //Executar com F6 para fazer o dowload das dependencias
+        //comando que sera executado no banco de dados
+        cadastrarConta(nome, tipoSelecionado, saldo, descricao);
     }//GEN-LAST:event_jButtonSalvarActionPerformed
-
+      
+    private void editarConta(String nome, int tipoSelecionado, double saldo, String descricao){
+            String sql = "UPDATE contas SET nome = ?, tipo = ?, saldo = ? , descricao = ? WHERE id ?";
+            try(Connection conexao = BancoDadosUtil.getConnection()){
+                PreparedStatement preparadorSQL = conexao.prepareStatement(sql);
+                preparadorSQL.setString(1, nome);
+                preparadorSQL.setInt(2, tipoSelecionado);
+                preparadorSQL.setDouble(3, saldo);
+                preparadorSQL.setString(4, descricao);
+                preparadorSQL.execute();
+                limparCampos();
+                consultarContas();
+                JOptionPane.showMessageDialog(null, "Conta alterada com sucesso!");
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Não foi possível alterar a conta");
+                e.printStackTrace();
+            }
+        }
     private void jButtonApagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApagarActionPerformed
         String sql = "DELETE FROM contas WHERE id = ?";
         
@@ -281,6 +292,8 @@ public class ContasJFrame extends javax.swing.JFrame {
             preparadorDeSQL.setInt(1, idEditar);
             preparadorDeSQL.execute();
             ResultSet registros = preparadorDeSQL.getResultSet();
+            //retorna uma lista, nesse caso dos registros
+            
             if(registros.next()){
                 String nome = registros.getString("nome");
                 double saldo = registros.getDouble("saldo");
@@ -301,12 +314,17 @@ public class ContasJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
+    private void jTextFieldNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldNomeActionPerformed
+
     //metodo sem retorno
     private void limparCampos(){
         jTextFieldNome.setText("");
         jTextAreaDescricao.setText("");
         buttonGroupTipo.clearSelection();
         jFormattedTextFieldSaldo.setText("");
+        idEditar = -1;
     }
     
     private void consultarContas(){
@@ -330,6 +348,24 @@ public class ContasJFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Não foi possível consultar as contas");
         }
        
+    }
+    
+    private void cadastrarConta(String nome, int tipoSelecionado, double saldo, String descricao){
+        String sql= "INSERT INTO contas (nome, tipo, saldo, descricao) VALUES (?,?,?,?)";
+        try(Connection conexao = BancoDadosUtil.getConnection()){
+            PreparedStatement preparadorDeSQL = conexao.prepareStatement(sql);
+            preparadorDeSQL.setString(1, nome);
+            preparadorDeSQL.setInt(2, tipoSelecionado);
+            preparadorDeSQL.setDouble(3, saldo);
+            preparadorDeSQL.setString(4, descricao);
+            preparadorDeSQL.execute();
+            JOptionPane.showMessageDialog(null, "Conta cadastrada com sucesso!");
+            limparCampos();
+            
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Não foi possivel cadastrar a conta");
+            e.printStackTrace();
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

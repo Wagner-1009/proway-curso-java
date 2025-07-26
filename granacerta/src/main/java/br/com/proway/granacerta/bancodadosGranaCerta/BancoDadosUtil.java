@@ -1,4 +1,4 @@
-package br.com.proway.granacerta.bancodados;
+package br.com.proway.granacerta.bancodadosGranaCerta;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
