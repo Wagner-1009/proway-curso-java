@@ -11,8 +11,18 @@ package br.com.proway.granacerta.bean;
 public class Conta {
     private int id;
     private String nome;
-    private String tipo;
+    private int tipo;
     private double saldo;
+    private String descricao;
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+    
     
     public int getId(){
         return id;
@@ -30,11 +40,11 @@ public class Conta {
         this.nome = nome;
     }
     
-    public String getTipo(){
+    public int getTipo(){
         return tipo;
     }
     
-    public void setTipo(String tipo){
+    public void setTipo(int tipo){
         this.tipo = tipo;
     }
     

@@ -196,9 +196,11 @@ public class ClientesJFrame extends javax.swing.JFrame {
             PreparedStatement preparadorDeSQL = conexao.prepareStatement(sql);
             preparadorDeSQL.setString(1, nome);
             preparadorDeSQL.setString(2, cnpj);
+            preparadorDeSQL.setInt(3, idEditar);
             preparadorDeSQL.execute();
             JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
             limparCampos();
+            consultarClientes();
             
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Não foi possivel cadastrar o cliente");
@@ -207,11 +209,12 @@ public class ClientesJFrame extends javax.swing.JFrame {
     }
     
     private void editarCliente(String nome, String cnpj){
-            String sql = "UPDATE clientes SET nome = ?, cnpj = ? WHERE id ?";
+            String sql = "UPDATE clientes SET nome = ?, cnpj = ? WHERE id = ?";
             try(Connection conexao = BancoDadosUtil.getConnection()){
                 PreparedStatement preparadorSQL = conexao.prepareStatement(sql);
                 preparadorSQL.setString(1, nome);
                 preparadorSQL.setString(2, cnpj);
+                preparadorSQL.setInt(3, idEditar);
                 preparadorSQL.execute();
                 limparCampos();
                 consultarClientes();
@@ -223,7 +226,7 @@ public class ClientesJFrame extends javax.swing.JFrame {
         }
          
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
-                String sql = "SELECT nome, saldo, tipo, descricao FROM contasWHERE id = ?";
+                String sql = "SELECT nome, cnpj FROM clientes WHERE id = ?";
         
         int indiceLinhaSelecionada = jTableClientes.getSelectedRow();
         idEditar = Integer.parseInt(modeloTabela.getValueAt(indiceLinhaSelecionada, 0).toString());
@@ -256,6 +259,7 @@ public class ClientesJFrame extends javax.swing.JFrame {
             Statement executorSql = conexao.createStatement();
             executorSql.execute(sql);
             ResultSet registros = executorSql.getResultSet();
+            modeloTabela.setRowCount(0);
             while(registros.next()){
                 int id = registros.getInt("id");
                 String nome = registros.getString("nome");
